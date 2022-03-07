@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Typography,
   Box,
@@ -6,11 +7,10 @@ import {
   TextField,
   Button,
 } from "@material-ui/core";
-import { deepPurple, green} from "@material-ui/core/colors";
-import List from '../student/List'
+import { deepPurple, green,orange } from "@material-ui/core/colors";
+import { useState,useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import {useState} from 'react'
-
 
 const useStyle = makeStyles({
   hedingColor: {
@@ -20,32 +20,49 @@ const useStyle = makeStyles({
   addStuColor: {
     backgroundColor: green[400],
     color: "white",
-  }
+  },
 });
 
-const Home = () => {
+
+
+const Edit = () => {
   const classes = useStyle();
-  const [student, setStudent] = useState({stuname: "", email: ""});
-  const [status, setStatus] = useState();
+  const {id} = useParams();
+  const navigate = useNavigate();
+  const [student, setStudent] = useState({stuname:"", email: ""});
+
+
+  useEffect(() => {
+    async function getStudent() {
+      try {
+        const student = await axios.get(`http://localhost:3333/students/${id}`);
+        // console.log(student.data);
+        setStudent(student.data);
+      } catch (error) {
+        console.log("something is wrong");
+      }
+    }
+    
+    getStudent();
+  }, []);
 
   function onTextFieldChange(e){
     setStudent({...student,[e.target.name]: e.target.value})
     console.log(student);
   }
-   async function onFormSubmit(e){
+  async function onFormSubmit(e){
     e.preventDefault()
       try {
-         await axios.post(`http://localhost:3333/students`,student);
-         setStatus(true);
+         await axios.put(`http://localhost:3333/students/${id}`,student);
+         navigate('/');
       } catch (error) {
         console.log("something is wrong");
       }
     
   }
-  if(status){
-    return <Home />
+  function handleClick(){
+    navigate('/');
   }
-
   return (
     <>
       <Box textAlign="center" className={classes.hedingColor} p={2} mb={2}>
@@ -54,10 +71,24 @@ const Home = () => {
       <Grid container justifyContent="center" spacing={2}>
         <Grid item md={6} xs={12}>
           <Box textAlign="center" p={2} className={classes.addStuColor} mb={2}>
-            <Typography variant="h4">Add Student</Typography>
+            <Typography variant="h4">Edit Student</Typography>
           </Box>
-          <form noValidate>
+          <form>
             <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  autoComplete="id"
+                  name="id"
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id="id"
+                  label="ID"
+                  autoFocus
+                  value={id}
+                  disabled
+                />
+              </Grid>
               <Grid item xs={12}>
                 <TextField
                   autoComplete="stuname"
@@ -68,7 +99,7 @@ const Home = () => {
                   id="stuname"
                   label="Name"
                   onChange={e => onTextFieldChange(e)}
-                  autoFocus
+                  value={student.stuname}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -81,29 +112,31 @@ const Home = () => {
                   id="email"
                   label="Email Address"
                   onChange={e => onTextFieldChange(e)}
+                  value={student.email}
                 />
               </Grid>
             </Grid>
             <Box m={3}>
               <Button
-                type="submit"
+                type="button"
                 variant="contained"
                 color="primary"
                 fullWidth
-                onClick={e => onFormSubmit(e)}
+                onClick={e =>onFormSubmit(e)}
               >
-                Add
+                Update
               </Button>
             </Box>
           </form>
-        </Grid>
-
-        <Grid item md={6} xs={12}>
-          <List />
+          <Box m={3} textAlign="center">
+            <Button type='button' variant="contained" color="primary" onClick={handleClick} >
+              Back to Home
+            </Button>
+          </Box>
         </Grid>
       </Grid>
     </>
   );
 };
 
-export default Home;
+export default Edit;
