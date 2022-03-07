@@ -20,6 +20,7 @@ import {
   import { Link } from "react-router-dom";
   import axios from "axios";
   import { useState, useEffect } from "react";
+  import toastMsg from '../../toastMsg';
 
   
   const useStyle = makeStyles({
@@ -42,6 +43,7 @@ import {
             try {
                 const students = await axios.get("http://localhost:3333/students")
                 // console.log(students.data);
+                // toastMsg(" All Item Fetched Succesfully");
                 setStudents(students.data);
             }catch(error) {
                 console.log("something is wrong");
@@ -53,10 +55,12 @@ import {
     
     const handleDelete = async id =>{
       await axios.delete(`http://localhost:3333/students/${id}`)
+      toastMsg("Item Deleted Succesfully");
       var newstudent = students.filter((item) => {
-        console.log(item)
-        console.log(item.id)
-        console.log(id)
+        // console.log(item)
+        // console.log(item.id)
+        // console.log(id)
+
         return item.id !== id;
       })
       setStudents(newstudent);

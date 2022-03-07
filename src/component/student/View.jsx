@@ -12,10 +12,11 @@ import {
   Paper,
   Button,
 } from "@material-ui/core";
-import { oragne, orange } from "@material-ui/core/colors";
+import { orange } from "@material-ui/core/colors";
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import toastMsg from '../../toastMsg';
 
 const useStyle = makeStyles({
   stuListColor: {
@@ -40,6 +41,7 @@ const View = () => {
       try {
         const student = await axios.get(`http://localhost:3333/students/${id}`);
         // console.log(student.data);
+        toastMsg("Item Fetched Succesfully");
         setStudent(student.data);
       } catch (error) {
         console.log("something is wrong");

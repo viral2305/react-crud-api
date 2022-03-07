@@ -11,6 +11,7 @@ import { deepPurple, green,orange } from "@material-ui/core/colors";
 import { useState,useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import toastMsg from '../../toastMsg';
 
 const useStyle = makeStyles({
   hedingColor: {
@@ -37,6 +38,7 @@ const Edit = () => {
       try {
         const student = await axios.get(`http://localhost:3333/students/${id}`);
         // console.log(student.data);
+        // toastMsg("Item Fetched Succesfully");
         setStudent(student.data);
       } catch (error) {
         console.log("something is wrong");
@@ -54,6 +56,7 @@ const Edit = () => {
     e.preventDefault()
       try {
          await axios.put(`http://localhost:3333/students/${id}`,student);
+         toastMsg("Item Update Succesfully");
          navigate('/');
       } catch (error) {
         console.log("something is wrong");

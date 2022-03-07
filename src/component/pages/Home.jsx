@@ -10,7 +10,7 @@ import { deepPurple, green} from "@material-ui/core/colors";
 import List from '../student/List'
 import axios from "axios";
 import {useState} from 'react'
-
+import toastMsg from '../../toastMsg';
 
 const useStyle = makeStyles({
   hedingColor: {
@@ -24,9 +24,12 @@ const useStyle = makeStyles({
 });
 
 const Home = () => {
+  
   const classes = useStyle();
   const [student, setStudent] = useState({stuname: "", email: ""});
   const [status, setStatus] = useState();
+
+  
 
   function onTextFieldChange(e){
     setStudent({...student,[e.target.name]: e.target.value})
@@ -38,6 +41,7 @@ const Home = () => {
       try {
         
          await axios.post(`http://localhost:3333/students`,student);
+         toastMsg("Item Addes Succesfully");
          setStatus(true);
       } catch (error) {
         console.log("something is wrong");
