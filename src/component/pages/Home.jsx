@@ -30,11 +30,13 @@ const Home = () => {
 
   function onTextFieldChange(e){
     setStudent({...student,[e.target.name]: e.target.value})
-    console.log(student);
+    // console.log(student);
   }
+  
    async function onFormSubmit(e){
     e.preventDefault()
       try {
+        
          await axios.post(`http://localhost:3333/students`,student);
          setStatus(true);
       } catch (error) {
@@ -56,7 +58,7 @@ const Home = () => {
           <Box textAlign="center" p={2} className={classes.addStuColor} mb={2}>
             <Typography variant="h4">Add Student</Typography>
           </Box>
-          <form noValidate>
+          <form onSubmit={e => onFormSubmit(e)}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
@@ -90,7 +92,7 @@ const Home = () => {
                 variant="contained"
                 color="primary"
                 fullWidth
-                onClick={e => onFormSubmit(e)}
+                
               >
                 Add
               </Button>

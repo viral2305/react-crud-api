@@ -7,7 +7,6 @@ import {
     Table,
     TableBody,
     TableCell,
-    Tablehead,
     TableRow,
     Paper,
     IconButton,
@@ -48,16 +47,21 @@ import {
                 console.log("something is wrong");
             }
         }
+        console.log("function renderd")
         getAllStudent();
     },[])
     
     const handleDelete = async id =>{
       await axios.delete(`http://localhost:3333/students/${id}`)
       var newstudent = students.filter((item) => {
+        console.log(item)
+        console.log(item.id)
+        console.log(id)
         return item.id !== id;
       })
       setStudents(newstudent);
     }
+    
   return (
     <>
       <Box textAlign="center" p={2} className={classes.stuListColor}>

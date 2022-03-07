@@ -12,9 +12,9 @@ function App() {
     <>
     <BrowserRouter>
     <Routes>
-      <Route exact path='/' element={<Home />}/>
-      <Route exact path='/view/:id' element={<View />}/>
-      <Route exact path='/edit/:id' element={<Edit />}/>
+      <Route  path='/' element={<Home />}/>
+      <Route  path='/view/:id' element={<View />}/>
+      <Route  path='/edit/:id' element={<Edit />}/>
 
       
     </Routes>
