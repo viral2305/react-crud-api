@@ -41,7 +41,7 @@ const View = () => {
       try {
         const student = await axios.get(`http://localhost:3333/students/${id}`);
         // console.log(student.data);
-        toastMsg("Item Fetched Succesfully");
+        toastMsg("Item Fetched Succesfully",{autoClose:false});
         setStudent(student.data);
       } catch (error) {
         console.log("something is wrong");

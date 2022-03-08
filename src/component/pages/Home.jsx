@@ -9,7 +9,7 @@ import {
 import { deepPurple, green} from "@material-ui/core/colors";
 import List from '../student/List'
 import axios from "axios";
-import {useState} from 'react'
+import {useEffect, useRef, useState} from 'react'
 import toastMsg from '../../toastMsg';
 
 const useStyle = makeStyles({
@@ -28,16 +28,23 @@ const Home = () => {
   const classes = useStyle();
   const [student, setStudent] = useState({stuname: "", email: ""});
   const [status, setStatus] = useState();
+  const reference = useRef(null);
+  
 
   
 
   function onTextFieldChange(e){
     setStudent({...student,[e.target.name]: e.target.value})
     // console.log(student);
+    
   }
-  
-   async function onFormSubmit(e){
+  // useEffect(()=> {
+    
+  // },[student])
+
+  async function onFormSubmit(e){
     e.preventDefault()
+    
       try {
         
          await axios.post(`http://localhost:3333/students`,student);
@@ -46,8 +53,9 @@ const Home = () => {
       } catch (error) {
         console.log("something is wrong");
       }
-    
+      console.log(reference.current);
   }
+   
   if(status){
     return <Home />
   }
@@ -65,7 +73,9 @@ const Home = () => {
           <form onSubmit={e => onFormSubmit(e)}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
+                
                 <TextField
+                
                   autoComplete="stuname"
                   name="stuname"
                   variant="outlined"

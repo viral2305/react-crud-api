@@ -38,8 +38,7 @@ import {
  const List = () => {
     const classes = useStyle();
     const [students ,setStudents] = useState([]);
-    useEffect(() => {
-        async function getAllStudent(){
+    useEffect(async () => {
             try {
                 const students = await axios.get("http://localhost:3333/students")
                 // console.log(students.data);
@@ -48,9 +47,7 @@ import {
             }catch(error) {
                 console.log("something is wrong");
             }
-        }
-        console.log("function renderd")
-        getAllStudent();
+
     },[])
     
     const handleDelete = async id =>{
@@ -68,7 +65,7 @@ import {
     
   return (
     <>
-      <Box textAlign="center" p={2} className={classes.stuListColor}>
+      <Box textAlign="center" p={2} className={classes.stuListColor}  mb={2}>
         <Typography variant="h4">Student List</Typography>
       </Box>
       <TableContainer component={Paper}>
